@@ -1,4 +1,6 @@
 package com.retail.coffeestore.model
+
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -10,5 +12,14 @@ data class Drink(
 
     var name: String = "",
 
-    var price: Double = 0.0
+    var price: Double = 0.0,
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinTable(
+        name = "drink_toppings",
+        joinColumns = [JoinColumn(name = "drink_id")],
+        inverseJoinColumns = [JoinColumn(name = "topping_id")]
+    )
+    var toppings: List<Topping> = emptyList()
 )

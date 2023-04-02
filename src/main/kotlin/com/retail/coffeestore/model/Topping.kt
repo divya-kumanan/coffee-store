@@ -11,5 +11,8 @@ data class Topping(
 
     val name: String = "",
 
-    val price: Double = 0.0
+    val price: Double = 0.0,
+
+    @ManyToMany(mappedBy = "toppings")
+    var drinks: List<Drink> = emptyList()
 )

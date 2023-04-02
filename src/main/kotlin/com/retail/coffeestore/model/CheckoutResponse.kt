@@ -1,18 +1,16 @@
 package com.retail.coffeestore.model
 
-data class CheckoutResponse(
+data class Checkout(
     val id: Long,
     val drink: DrinkResponse,
     val toppings: List<ToppingResponse>,
     val quantity: Int,
+    val originalAmount: Double
+)
+
+data class CheckoutResponse(
+    val items: List<Checkout?>,
     val originalAmount: Double,
     val discountAmount: Double,
     val discountedAmount: Double
-)
-
-data class Checkout(
-    val response: List<CheckoutResponse>,
-    val totalOriginalAmount: Double,
-    val totalDiscountAmount: Double,
-    val totalAmount: Double
 )

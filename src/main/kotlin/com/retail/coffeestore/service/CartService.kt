@@ -37,29 +37,19 @@ class CartService(
         cartItemRepository.deleteById(id)
     }
 
-    fun checkout(): List<CheckoutResponse> {
+    fun checkout(): CheckoutResponse {
         val cartItems = cartItemRepository.findAll()
 
-        val checkoutResponse = cartItems.map { cartItem ->
-            cartItem.toCheckoutResponse()
-        }
-
-        cartItemRepository.deleteAll(cartItems)
-        return checkoutResponse
-    }
-
-    private fun CartItem.toCheckoutResponse(): CheckoutResponse {
-        val drinkPrice = drink!!.price
-        val toppingsPrice = toppings.sumOf { it.price }
-        val originalAmount = quantity * (drinkPrice + toppingsPrice)
+        val originalAmount = cartItems.sumOf { it.price!! }
         val discountAmount = calculateDiscount(originalAmount)
         val discountedAmount = originalAmount - discountAmount
+        val checkouts = cartItems.map { cartItem ->
+            cartItem.toCheckout()
+        }
+        cartItemRepository.deleteAll(cartItems)
 
         return CheckoutResponse(
-            id = id!!,
-            drink = drink!!.toDrinkResponse(),
-            toppings = toppings.map { it.toToppingResponse() },
-            quantity = quantity,
+            items = checkouts,
             originalAmount = originalAmount,
             discountAmount = discountAmount,
             discountedAmount = discountedAmount
@@ -86,7 +76,6 @@ class CartService(
                 cartItemRepository.delete(freeCartItem)
             }
         }
-
         return discount
     }
 

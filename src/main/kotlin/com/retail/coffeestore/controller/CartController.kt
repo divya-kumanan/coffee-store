@@ -42,7 +42,7 @@ class CartController(
     }
 
     @PostMapping("/checkout")
-    fun checkout(): ResponseEntity<List<CheckoutResponse>> {
+    fun checkout(): ResponseEntity<CheckoutResponse> {
         val checkoutResponse = cartService.checkout()
         return ResponseEntity.ok(checkoutResponse)
     }

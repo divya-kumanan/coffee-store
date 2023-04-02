@@ -364,6 +364,39 @@
 					"response": []
 				},
 				{
+					"name": "Checkout",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}{{basepath}}/cart/checkout",
+							"host": [
+								"{{host}}{{basepath}}"
+							],
+							"path": [
+								"cart",
+								"checkout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get Cart Items",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -402,96 +435,6 @@
 							],
 							"path": [
 								"cart"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SwaggerDocument",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "password",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "user",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"toppingIds\": [1, 3],\n    \"quantity\": 2\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/v3/api-docs",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"v3",
-								"api-docs"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Actuator Health",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "password",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "user",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"toppingIds\": [1, 3],\n    \"quantity\": 2\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/actuator/info",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"actuator",
-								"info"
 							]
 						}
 					},
@@ -582,7 +525,10 @@
 					"response": []
 				},
 				{
-					"name": "Checkout",
+					"name": "SwaggerDocument",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -599,16 +545,70 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"toppingIds\": [1, 3],\n    \"quantity\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{host}}{{basepath}}/cart/checkout",
+							"raw": "{{host}}/v3/api-docs",
 							"host": [
-								"{{host}}{{basepath}}"
+								"{{host}}"
 							],
 							"path": [
-								"cart",
-								"checkout"
+								"v3",
+								"api-docs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actuator Health",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"toppingIds\": [1, 3],\n    \"quantity\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/actuator/info",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"actuator",
+								"info"
 							]
 						}
 					},

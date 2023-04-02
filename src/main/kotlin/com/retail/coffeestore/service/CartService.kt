@@ -5,6 +5,7 @@ import com.retail.coffeestore.model.*
 import com.retail.coffeestore.repository.CartItemRepository
 import com.retail.coffeestore.repository.DrinkRepository
 import com.retail.coffeestore.repository.ToppingRepository
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
@@ -16,6 +17,10 @@ class CartService(
     private val drinkRepository: DrinkRepository,
     private val toppingRepository: ToppingRepository
 ) {
+
+    private val logger = LoggerFactory.getLogger(CartService::class.java)
+
+
     fun addToCart(drinkId: Long, toppingsIds: List<Long>, quantity: Int): CartItem {
         val drink = drinkRepository.findById(drinkId).orElseThrow { NotFoundException("Drink not found") }
         val toppings = toppingRepository.findAllById(toppingsIds).toList()
@@ -25,7 +30,7 @@ class CartService(
             toppings = toppings,
             quantity = quantity
         )
-
+        logger.info("Item added to the cart successfully. ${cartItem.id}")
         return cartItemRepository.save(cartItem)
     }
 
@@ -47,7 +52,7 @@ class CartService(
             cartItem.toCheckout()
         }
         cartItemRepository.deleteAll(cartItems)
-
+        logger.info("Item checked out from the cart successfully. ${checkouts}")
         return CheckoutResponse(
             items = checkouts,
             originalAmount = originalAmount,
@@ -67,6 +72,7 @@ class CartService(
 
         // Check for discount 1
         if (amount > 12) {
+            logger.info("Discount 1 applied.")
             discount = amount * 0.25
         }
 
@@ -77,6 +83,7 @@ class CartService(
             val freeCartItem = cartItems.firstOrNull()
 
             if (freeCartItem != null) {
+                logger.info("Discount 2 or 3 applied.")
                 //apply discount 3
                 discount = max(discount, freeCartItem.drink!!.price)
                 cartItemRepository.delete(freeCartItem)

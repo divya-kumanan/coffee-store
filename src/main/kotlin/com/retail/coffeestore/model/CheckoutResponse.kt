@@ -5,12 +5,12 @@ data class Checkout(
     val drink: DrinkResponse,
     val toppings: List<ToppingResponse>,
     val quantity: Int,
-    val originalAmount: Double
+    val amount: Double
 )
 
 data class CheckoutResponse(
     val items: List<Checkout?>,
     val originalAmount: Double,
     val discountAmount: Double,
-    val discountedAmount: Double
+    val totalAmount: Double
 )

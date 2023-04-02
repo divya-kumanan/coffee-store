@@ -40,7 +40,7 @@ class CartService(
     fun checkout(): CheckoutResponse {
         val cartItems = cartItemRepository.findAll()
 
-        val originalAmount = cartItems.sumOf { it.price!! }
+        val originalAmount = cartItems.sumOf { calculatePrice(it) }
         val discountAmount = calculateDiscount(originalAmount)
         val discountedAmount = originalAmount - discountAmount
         val checkouts = cartItems.map { cartItem ->
@@ -52,8 +52,14 @@ class CartService(
             items = checkouts,
             originalAmount = originalAmount,
             discountAmount = discountAmount,
-            discountedAmount = discountedAmount
+            totalAmount = discountedAmount
         )
+    }
+
+    private fun calculatePrice(cartItem: CartItem): Double {
+        val drinkPrice = cartItem.drink?.price ?: throw RuntimeException("Drink cannot be null")
+        val toppingsPrice = cartItem.toppings.sumOf { it.price }
+        return (drinkPrice + toppingsPrice) * cartItem.quantity
     }
 
     private fun calculateDiscount(amount: Double): Double {

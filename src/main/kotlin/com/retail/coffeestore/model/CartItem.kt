@@ -25,10 +25,7 @@ data class CartItem(
     @Column(name = "price")
     var price : Double ? = null
 ) {
-    init {
-        price = calculatePrice()
-    }
-     private fun calculatePrice(): Double {
+    private fun calculatePrice(): Double {
         val drinkPrice = drink?.price ?: throw RuntimeException("Drink cannot be null")
         val toppingsPrice = toppings.sumOf { it.price }
         return (drinkPrice + toppingsPrice) * quantity
@@ -38,6 +35,7 @@ data class CartItem(
         val drinkResponse = drink?.toDrinkResponse() ?: throw RuntimeException("Drink cannot be null")
         val toppingsResponse = toppings.map { it.toToppingResponse() }
         val calculatedPrice = calculatePrice()
+        price = calculatedPrice
         return CartItemResponse(
             id = id ?: throw RuntimeException("Cart Item ID cannot be null"),
             drink = drinkResponse,
@@ -47,15 +45,13 @@ data class CartItem(
         )
     }
 
-    fun toCheckout(): Checkout? {
-        return price?.let {
-            Checkout(
-                id = id!!,
-                drink = drink!!.toDrinkResponse(),
-                toppings = toppings.map { it.toToppingResponse() },
-                quantity = quantity,
-                originalAmount = it
-            )
-        }
+    fun toCheckout(): Checkout {
+        return Checkout(
+            id = id!!,
+            drink = drink!!.toDrinkResponse(),
+            toppings = toppings.map { it.toToppingResponse() },
+            quantity = quantity,
+            amount = calculatePrice()
+        )
     }
 }
